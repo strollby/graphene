@@ -143,6 +143,49 @@ as complex of input data as you need:
         name = graphene.String()
         latlng = graphene.InputField(LatLngInput)
 
+OneOf Input Objects
+-------------------
+
+The ``is_one_of`` Meta option marks an ``InputObjectType`` as a `OneOf Input Object
+<https://spec.graphql.org/draft/#sec-OneOf-Input-Objects>`_, meaning **exactly one** field
+must be supplied (and it must be non-null). This is useful for representing mutually exclusive
+input variants without separate mutation arguments.
+
+.. code:: python
+
+    import graphene
+
+    class PetSearchInput(graphene.InputObjectType):
+        class Meta:
+            is_one_of = True
+
+        name = graphene.String()
+        id = graphene.ID()
+
+    class SearchPet(graphene.Mutation):
+        class Arguments:
+            search = PetSearchInput(required=True)
+
+        pet = graphene.Field(Pet)
+
+        def mutate(root, info, search):
+            if search.name:
+                ...
+            elif search.id:
+                ...
+
+The corresponding GraphQL query must provide exactly one field:
+
+.. code::
+
+    mutation {
+        searchPet(search: {name: "Fido"}) {
+            pet { name }
+        }
+    }
+
+Passing zero or more than one field is a validation error.
+
 Output type example
 -------------------
 To return an existing ObjectType instead of a mutation-specific type, set the **Output** attribute to the desired ObjectType:

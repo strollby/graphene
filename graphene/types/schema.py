@@ -263,6 +263,7 @@ class TypeMap(dict):
             name=graphene_type._meta.name,
             description=graphene_type._meta.description,
             out_type=graphene_type._meta.container,
+            is_one_of=graphene_type._meta.is_one_of,
             fields=partial(
                 self.create_fields_for_type, graphene_type, is_input_type=True
             ),

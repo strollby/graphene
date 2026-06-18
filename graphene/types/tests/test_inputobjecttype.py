@@ -141,6 +141,80 @@ def test_inputobjecttype_of_input():
     assert result.data == {"isChild": True}
 
 
+def test_generate_inputobjecttype_is_one_of_default():
+    class MyInputObjectType(InputObjectType):
+        pass
+
+    assert MyInputObjectType._meta.is_one_of is False
+
+
+def test_generate_inputobjecttype_is_one_of():
+    class MyInputObjectType(InputObjectType):
+        class Meta:
+            is_one_of = True
+
+    assert MyInputObjectType._meta.is_one_of is True
+
+
+def test_inputobjecttype_is_one_of_schema():
+    class SearchInput(InputObjectType):
+        class Meta:
+            is_one_of = True
+
+        name = String()
+        id = String()
+
+    class Query(ObjectType):
+        search = Boolean(input=SearchInput())
+
+        def resolve_search(self, info, input):
+            return input.name == "Fido"
+
+    schema = Schema(query=Query)
+    graphql_type = schema.graphql_schema.type_map.get("SearchInput")
+    assert graphql_type is not None
+    assert graphql_type.is_one_of is True
+
+
+def test_inputobjecttype_is_one_of_valid_query():
+    class SearchInput(InputObjectType):
+        class Meta:
+            is_one_of = True
+
+        name = String()
+        id = String()
+
+    class Query(ObjectType):
+        search = Boolean(input=SearchInput())
+
+        def resolve_search(self, info, input):
+            return input.name == "Fido"
+
+    schema = Schema(query=Query)
+    result = schema.execute('{ search(input: {name: "Fido"}) }')
+    assert not result.errors
+    assert result.data == {"search": True}
+
+
+def test_inputobjecttype_is_one_of_rejects_multiple_fields():
+    class SearchInput(InputObjectType):
+        class Meta:
+            is_one_of = True
+
+        name = String()
+        id = String()
+
+    class Query(ObjectType):
+        search = Boolean(input=SearchInput())
+
+        def resolve_search(self, info, input):
+            return False
+
+    schema = Schema(query=Query)
+    result = schema.execute('{ search(input: {name: "Fido", id: "1"}) }')
+    assert result.errors
+
+
 def test_inputobjecttype_default_input_as_undefined(
     set_default_input_object_type_to_undefined,
 ):

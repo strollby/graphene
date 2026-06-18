@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 class InputObjectTypeOptions(BaseOptions):
     fields = None  # type: Dict[str, InputField]
     container = None  # type: InputObjectTypeContainer
+    is_one_of = False # type: bool
 
 
 # Currently in Graphene, we get a `None` whenever we access an (optional) field that was not set in an InputObjectType
@@ -87,10 +88,12 @@ class InputObjectType(UnmountedType, BaseType):
             attribute initialization and access. Default InputObjectTypeContainer.
         fields (Dict[str, graphene.InputField]): Dictionary of field name to InputField. Not
             recommended to use (prefer class attributes).
+        is_one_of (bool): If True, marks this as a OneOf Input Object — exactly one field must
+            be supplied and it must be non-null. Defaults to False.
     """
 
     @classmethod
-    def __init_subclass_with_meta__(cls, container=None, _meta=None, **options):
+    def __init_subclass_with_meta__(cls, container=None, is_one_of=False, _meta=None, **options):
         if not _meta:
             _meta = InputObjectTypeOptions(cls)
 
@@ -105,6 +108,7 @@ class InputObjectType(UnmountedType, BaseType):
         if container is None:
             container = type(cls.__name__, (InputObjectTypeContainer, cls), {})
         _meta.container = container
+        _meta.is_one_of = is_one_of
         super(InputObjectType, cls).__init_subclass_with_meta__(_meta=_meta, **options)
 
     @classmethod
