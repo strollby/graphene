@@ -9,11 +9,11 @@ from dataclasses import make_dataclass, field
 
 # For static type checking with type checker
 if TYPE_CHECKING:
-    from typing import Dict, Iterable, Type  # NOQA
+    from typing import Dict, Iterable, Optional, Type  # NOQA
 
 
 class ObjectTypeOptions(BaseOptions):
-    fields = None  # type: Dict[str, Field]
+    fields = None  # type: Optional[Dict[str, Field]]
     interfaces = ()  # type: Iterable[Type[Interface]]
 
 
@@ -154,6 +154,6 @@ class ObjectType(BaseType, metaclass=ObjectTypeMeta):
         _meta.possible_types = possible_types
         _meta.default_resolver = default_resolver
 
-        super(ObjectType, cls).__init_subclass_with_meta__(_meta=_meta, **options)
+        super().__init_subclass_with_meta__(_meta=_meta, **options)
 
     is_type_of = None

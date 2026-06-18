@@ -7,13 +7,13 @@ from .utils import yank_fields_from_attrs
 
 # For static type checking with type checker
 if TYPE_CHECKING:
-    from typing import Dict, Callable  # NOQA
+    from typing import Dict, Callable, Optional  # NOQA
 
 
 class InputObjectTypeOptions(BaseOptions):
-    fields = None  # type: Dict[str, InputField]
-    container = None  # type: InputObjectTypeContainer
-    is_one_of = False # type: bool
+    fields = None  # type: Optional[Dict[str, InputField]]
+    container = None  # type: Optional[InputObjectTypeContainer]
+    is_one_of = False  # type: bool
 
 
 # Currently in Graphene, we get a `None` whenever we access an (optional) field that was not set in an InputObjectType
@@ -93,7 +93,9 @@ class InputObjectType(UnmountedType, BaseType):
     """
 
     @classmethod
-    def __init_subclass_with_meta__(cls, container=None, is_one_of=False, _meta=None, **options):
+    def __init_subclass_with_meta__(
+        cls, container=None, is_one_of=False, _meta=None, **options
+    ):
         if not _meta:
             _meta = InputObjectTypeOptions(cls)
 
@@ -109,7 +111,7 @@ class InputObjectType(UnmountedType, BaseType):
             container = type(cls.__name__, (InputObjectTypeContainer, cls), {})
         _meta.container = container
         _meta.is_one_of = is_one_of
-        super(InputObjectType, cls).__init_subclass_with_meta__(_meta=_meta, **options)
+        super().__init_subclass_with_meta__(_meta=_meta, **options)
 
     @classmethod
     def get_type(cls):

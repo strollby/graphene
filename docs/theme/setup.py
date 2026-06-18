@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """`sphinx_graphene_theme` lives on `Github`_.
 .. _github: https://github.com/graphql-python/graphene-python.org
 """

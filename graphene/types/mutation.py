@@ -11,13 +11,13 @@ from .interface import Interface
 # For static type checking with type checker
 if TYPE_CHECKING:
     from .argument import Argument  # NOQA
-    from typing import Dict, Type, Callable, Iterable  # NOQA
+    from typing import Callable, Dict, Iterable, Optional, Type  # NOQA
 
 
 class MutationOptions(ObjectTypeOptions):
-    arguments = None  # type: Dict[str, Argument]
-    output = None  # type: Type[ObjectType]
-    resolver = None  # type: Callable
+    arguments = None  # type: Optional[Dict[str, Argument]]
+    output = None  # type: Optional[Type[ObjectType]]
+    resolver = None  # type: Optional[Callable]
     interfaces = ()  # type: Iterable[Type[Interface]]
 
 
@@ -116,7 +116,7 @@ class Mutation(ObjectType):
         _meta.resolver = resolver
         _meta.arguments = arguments
 
-        super(Mutation, cls).__init_subclass_with_meta__(_meta=_meta, **options)
+        super().__init_subclass_with_meta__(_meta=_meta, **options)
 
     @classmethod
     def Field(

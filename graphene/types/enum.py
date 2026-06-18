@@ -1,4 +1,8 @@
 from enum import Enum as PyEnum
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing import Optional  # NOQA
 
 from graphene.utils.subclass_with_meta import SubclassWithMeta_Meta
 
@@ -20,7 +24,7 @@ EnumType = type(PyEnum)
 
 
 class EnumOptions(BaseOptions):
-    enum = None  # type: Enum
+    enum = None  # type: Optional[Enum]
     deprecation_reason = None
 
 
@@ -55,7 +59,7 @@ class EnumMeta(SubclassWithMeta_Meta):
                 description=description,
                 deprecation_reason=deprecation_reason,
             )
-        return super(EnumMeta, cls).__call__(*args, **kwargs)
+        return super().__call__(*args, **kwargs)
         # return cls._meta.enum(*args, **kwargs)
 
     def __iter__(cls):
@@ -107,7 +111,7 @@ class Enum(UnmountedType, BaseType, metaclass=EnumMeta):
         for key, value in _meta.enum.__members__.items():
             setattr(cls, key, value)
 
-        super(Enum, cls).__init_subclass_with_meta__(_meta=_meta, **options)
+        super().__init_subclass_with_meta__(_meta=_meta, **options)
 
     @classmethod
     def get_type(cls):

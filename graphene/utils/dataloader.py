@@ -9,7 +9,10 @@ from collections import namedtuple
 from collections.abc import Iterable
 from functools import partial
 
-from typing import List
+from typing import TYPE_CHECKING, List
+
+if TYPE_CHECKING:
+    from typing import Optional  # NOQA
 
 Loader = namedtuple("Loader", "key,future")
 
@@ -18,9 +21,9 @@ def iscoroutinefunctionorpartial(fn):
     return iscoroutinefunction(fn.func if isinstance(fn, partial) else fn)
 
 
-class DataLoader(object):
+class DataLoader:
     batch = True
-    max_batch_size = None  # type: int
+    max_batch_size = None  # type: Optional[int]
     cache = True
 
     def __init__(

@@ -6,11 +6,11 @@ from .utils import yank_fields_from_attrs
 
 # For static type checking with type checker
 if TYPE_CHECKING:
-    from typing import Dict, Iterable, Type  # NOQA
+    from typing import Dict, Iterable, Optional, Type  # NOQA
 
 
 class InterfaceOptions(BaseOptions):
-    fields = None  # type: Dict[str, Field]
+    fields = None  # type: Optional[Dict[str, Field]]
     interfaces = ()  # type: Iterable[Type[Interface]]
 
 
@@ -63,7 +63,7 @@ class Interface(BaseType):
         if not _meta.interfaces:
             _meta.interfaces = interfaces
 
-        super(Interface, cls).__init_subclass_with_meta__(_meta=_meta, **options)
+        super().__init_subclass_with_meta__(_meta=_meta, **options)
 
     @classmethod
     def resolve_type(cls, instance, info):
