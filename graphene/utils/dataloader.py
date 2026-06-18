@@ -3,8 +3,8 @@ from asyncio import (
     ensure_future,
     get_event_loop,
     iscoroutine,
-    iscoroutinefunction,
 )
+from inspect import iscoroutinefunction
 from collections import namedtuple
 from collections.abc import Iterable
 from functools import partial
@@ -38,9 +38,9 @@ class DataLoader(object):
         if batch_load_fn is not None:
             self.batch_load_fn = batch_load_fn
 
-        assert iscoroutinefunctionorpartial(
-            self.batch_load_fn
-        ), "batch_load_fn must be coroutine. Received: {}".format(self.batch_load_fn)
+        assert iscoroutinefunctionorpartial(self.batch_load_fn), (
+            "batch_load_fn must be coroutine. Received: {}".format(self.batch_load_fn)
+        )
 
         if not callable(self.batch_load_fn):
             raise TypeError(  # pragma: no cover

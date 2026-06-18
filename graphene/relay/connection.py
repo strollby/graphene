@@ -158,9 +158,9 @@ class IterableConnectionField(Field):
                 "Read more: https://github.com/graphql-python/graphene/blob/v2.0.0/UPGRADE-v2.0.md#node-connections"
             )
 
-        assert issubclass(
-            connection_type, Connection
-        ), f'{self.__class__.__name__} type has to be a subclass of Connection. Received "{connection_type}".'
+        assert issubclass(connection_type, Connection), (
+            f'{self.__class__.__name__} type has to be a subclass of Connection. Received "{connection_type}".'
+        )
         return type_
 
     @classmethod

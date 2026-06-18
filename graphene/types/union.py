@@ -52,9 +52,9 @@ class Union(UnmountedType, BaseType):
 
     @classmethod
     def __init_subclass_with_meta__(cls, types=None, _meta=None, **options):
-        assert (
-            isinstance(types, (list, tuple)) and len(types) > 0
-        ), f"Must provide types for Union {cls.__name__}."
+        assert isinstance(types, (list, tuple)) and len(types) > 0, (
+            f"Must provide types for Union {cls.__name__}."
+        )
 
         if not _meta:
             _meta = UnionOptions(cls)

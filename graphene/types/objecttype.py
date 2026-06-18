@@ -134,9 +134,9 @@ class ObjectType(BaseType, metaclass=ObjectTypeMeta):
         fields = {}
 
         for interface in interfaces:
-            assert issubclass(
-                interface, Interface
-            ), f'All interfaces of {cls.__name__} must be a subclass of Interface. Received "{interface}".'
+            assert issubclass(interface, Interface), (
+                f'All interfaces of {cls.__name__} must be a subclass of Interface. Received "{interface}".'
+            )
             fields.update(interface._meta.fields)
         for base in reversed(cls.__mro__):
             fields.update(yank_fields_from_attrs(base.__dict__, _as=Field))

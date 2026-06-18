@@ -21,7 +21,7 @@ docs-live: install-dev
 
 .PHONY: format
 format:
-	black graphene examples setup.py
+	ruff format graphene examples setup.py
 
 .PHONY: lint
 lint:

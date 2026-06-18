@@ -60,9 +60,9 @@ class InputField(MountedType):
         super(InputField, self).__init__(_creation_counter=_creation_counter)
         self.name = name
         if required:
-            assert (
-                deprecation_reason is None
-            ), f"InputField {name} is required, cannot deprecate it."
+            assert deprecation_reason is None, (
+                f"InputField {name} is required, cannot deprecate it."
+            )
             type_ = NonNull(type_)
         self._type = type_
         self.deprecation_reason = deprecation_reason

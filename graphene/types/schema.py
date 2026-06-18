@@ -61,9 +61,9 @@ def assert_valid_root_type(type_):
         return
     is_graphene_objecttype = inspect.isclass(type_) and issubclass(type_, ObjectType)
     is_graphql_objecttype = isinstance(type_, GraphQLObjectType)
-    assert (
-        is_graphene_objecttype or is_graphql_objecttype
-    ), f"Type {type_} is not a valid ObjectType."
+    assert is_graphene_objecttype or is_graphql_objecttype, (
+        f"Type {type_} is not a valid ObjectType."
+    )
 
 
 def is_graphene_type(type_):

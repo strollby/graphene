@@ -149,8 +149,7 @@ def test_bad_date_query():
     error = result.errors[0]
     assert isinstance(error, GraphQLError)
     assert (
-        error.message == "Date cannot represent value:"
-        ' "Some string that\'s not a date"'
+        error.message == 'Date cannot represent value: "Some string that\'s not a date"'
     )
     assert result.data is None
 
@@ -163,8 +162,7 @@ def test_bad_time_query():
     error = result.errors[0]
     assert isinstance(error, GraphQLError)
     assert (
-        error.message == "Time cannot represent value:"
-        ' "Some string that\'s not a time"'
+        error.message == 'Time cannot represent value: "Some string that\'s not a time"'
     )
     assert result.data is None
 

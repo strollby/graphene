@@ -81,9 +81,9 @@ class Mutation(ObjectType):
         fields = {}
 
         for interface in interfaces:
-            assert issubclass(
-                interface, Interface
-            ), f'All interfaces of {cls.__name__} must be a subclass of Interface. Received "{interface}".'
+            assert issubclass(interface, Interface), (
+                f'All interfaces of {cls.__name__} must be a subclass of Interface. Received "{interface}".'
+            )
             fields.update(interface._meta.fields)
         if not output:
             # If output is defined, we don't need to get the fields

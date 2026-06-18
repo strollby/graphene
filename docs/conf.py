@@ -139,7 +139,6 @@ todo_include_todos = True
 #     html_theme = 'sphinx_rtd_theme'
 
 html_theme = "sphinx_graphene_theme"
-
 html_theme_path = [sphinx_graphene_theme.get_html_theme_path()]
 
 # Theme options are theme-specific and customize the look and feel of a theme
@@ -445,7 +444,6 @@ epub_exclude_files = ["search.html"]
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
-    "https://docs.python.org/": None,
     "python": ("https://docs.python.org/", None),
     "graphene_django": (
         "http://docs.graphene-python.org/projects/django/en/latest/",

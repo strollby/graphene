@@ -77,9 +77,9 @@ class AbstractNode(Interface):
 
     @classmethod
     def __init_subclass_with_meta__(cls, global_id_type=DefaultGlobalIDType, **options):
-        assert issubclass(
-            global_id_type, BaseGlobalIDType
-        ), "Custom ID type need to be implemented as a subclass of BaseGlobalIDType."
+        assert issubclass(global_id_type, BaseGlobalIDType), (
+            "Custom ID type need to be implemented as a subclass of BaseGlobalIDType."
+        )
         _meta = InterfaceOptions(cls)
         _meta.global_id_type = global_id_type
         _meta.fields = {
@@ -116,9 +116,9 @@ class Node(AbstractNode):
         graphene_type = graphene_type.graphene_type
 
         if only_type:
-            assert (
-                graphene_type == only_type
-            ), f"Must receive a {only_type._meta.name} id."
+            assert graphene_type == only_type, (
+                f"Must receive a {only_type._meta.name} id."
+            )
 
         # We make sure the ObjectType implements the "Node" interface
         if cls not in graphene_type._meta.interfaces:
